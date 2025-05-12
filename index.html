@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple PDF Viewer</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Import the latest stable version of PDF.js from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        // Set the workerSrc property to the location of the worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
+</head>
+<body>
+    <div id="loading-container">
+        <div class="spinner"></div>
+        <div class="loading-text">Loading PDF...</div>
+    </div>
+    
+    <div id="pdf-container">
+        <canvas id="pdf-render"></canvas>
+    </div>
+
+    <script src="viewer.js"></script>
+</body>
+</html>
