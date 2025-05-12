@@ -22,6 +22,9 @@ function renderPage(pageNumber) {
     // Show loading container while rendering
     document.getElementById('loading-container').style.display = 'flex';
     
+    // Reset capture flag - we're starting a new render
+    window.readyToCapture = false;
+    
     pdfDoc.getPage(pageNumber).then(page => {
         // Calculate viewport to fit the canvas to the PDF page
         const viewport = page.getViewport({ scale });
@@ -38,10 +41,14 @@ function renderPage(pageNumber) {
         
         const renderTask = page.render(renderContext);
         
-        // When the render completes, hide the loading spinner
+        // When the render completes, hide the loading spinner and set readyToCapture flag
         renderTask.promise.then(() => {
             document.getElementById('loading-container').style.display = 'none';
             document.getElementById('pdf-container').style.display = 'block';
+            
+            // Set the readyToCapture flag to true now that the page is fully rendered
+            window.readyToCapture = true;
+            console.log('PDF page fully rendered, readyToCapture =', window.readyToCapture);
         });
     });
 }
@@ -69,6 +76,9 @@ function loadPDF(url, initialPage) {
 
 // When the page loads, get URL parameters and load the PDF
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize readyToCapture to false
+    window.readyToCapture = false;
+    
     const { pdfUrl, page } = getUrlParams();
     
     if (pdfUrl) {
